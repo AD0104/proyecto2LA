@@ -7,8 +7,8 @@ class Tree:
 
         self.root.setLeft(self.leaf)
         
-        self.errorsRaised = [0,0,0,0]
-        self.errors = ["Error 1: Cadena vacia","Eror 2: Tipo de dato invalido","Error 3: Variable no declarada","Error 4: Los nombres de variables no deben contener espacios"]
+        self.errorsRaised = [0,0,0,0,0]
+        self.errors = ["Error 1: Cadena vacia","Eror 2: Tipo de dato invalido","Error 3: Variable no declarada","Error 4: Los nombres de variables no deben contener espacios","Error 5: Cadena con caracteres invalidos"]
     def getRoot(self):
         return self.root
 
@@ -36,6 +36,7 @@ class Tree:
                 for idx,letter in enumerate(values[0]):
                     if letter not in actualNode.getAlphabets():
                         print("Caracter invalido",letter)
+                        self.errorsRaised[4] = 1
                     else:
                         string = values[0]
                         string = string[idx+1:]
