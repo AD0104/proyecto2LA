@@ -33,18 +33,19 @@ class Tree:
                 return
         else:
             if values:
-                for idx,letter in enumerate(values[0]):
-                    if letter not in actualNode.getAlphabets():
+                for letter in self.createList(values[0]):
+                    if letter.isalpha() == False and letter.isdigit() == False:
                         print("Caracter invalido",letter)
                         self.errorsRaised[4] = 1
-                    else:
+                    """else:
                         string = values[0]
                         string = string[idx+1:]
                         values[0] = string
                         if values[0] == '':
                             values.pop(0)
                             break
-                if len(values) > 0:
+                    """
+                if len(values) > 1:
                     self.errorsRaised[3] = 1
             else:
                 self.errorsRaised[2] = 1
@@ -52,3 +53,8 @@ class Tree:
             self.verificacion(actualNode.getLeft(), values)
         if actualNode.getRight():
             self.verificacion(actualNode.getRight(), values)
+    def createList(self, values):
+        returnList = []
+        for value in values:
+            returnList.append(value)
+        return returnList
