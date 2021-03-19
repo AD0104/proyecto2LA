@@ -1,16 +1,29 @@
 from node import Node
-import string
+
 class Tree:
     def __init__(self):
-        self.root = Node(["Cadena","Entero","Real"])
-        self.leaf = Node(list(string.ascii_lowercase)+list(string.ascii_uppercase)+[str(x) for x in range(10)])
+        self.root = None
+        self.leaf = None
 
-        self.root.setLeft(self.leaf)
-        
-        self.errorsRaised = [0,0,0,0,0]
-        self.errors = ["Error 1: Cadena vacia","Eror 2: Tipo de dato invalido","Error 3: Variable no declarada","Error 4: Los nombres de variables no deben contener espacios","Error 5: Cadena con caracteres invalidos"]
+        self.errorsRaised = [0,0,0,0,0,0]
+        #                    0 1 2 3 4 5
+        self.errors = ["Error 1: Cadena vacia", #0
+                       "Eror 2: Tipo de dato invalido", #1
+                       "Error 3: Variable no declarada", #2
+                       "Error 4: Los nombres de variables no deben contener espacios", #3
+                       "Error 5: Cadena con caracteres invalidos", #4
+                       "Error 6: Asignacion invalida" #5
+                       ]
+        self.dataType = ""
+        self.statedVar = ""
+    def setRoot(self, root):
+        self.root = root
     def getRoot(self):
         return self.root
+    def getDataType(self):
+        return self.dataType
+    def getStatedVar(self):
+        return self.statedVar
 
     def printMessages(self):
         if 1 in self.errorsRaised:
@@ -19,15 +32,15 @@ class Tree:
                     print(self.errors[index])
         else:
             print("Cadena correcta")
-
-    def verificacion(self, actualNode, values):
+    #Recorrido en preorden
+    def varVerificacion(self, actualNode, values):
         if actualNode == self.getRoot():
             if values:
                 if values[0] not in actualNode.getAlphabets():
                     self.errorsRaised[1] = 1
                     values.pop(0)
                 else:
-                    values.pop(0)
+                    self.dataType = values.pop(0)
             else:
                 self.errorsRaised[0] = 1
                 return
@@ -37,22 +50,70 @@ class Tree:
                     if letter.isalpha() == False and letter.isdigit() == False:
                         print("Caracter invalido",letter)
                         self.errorsRaised[4] = 1
-                    """else:
-                        string = values[0]
-                        string = string[idx+1:]
-                        values[0] = string
-                        if values[0] == '':
-                            values.pop(0)
-                            break
-                    """
-                if len(values) > 1:
-                    self.errorsRaised[3] = 1
+                    self.statedVar += letter
+                    if len(values) > 1:
+                        self.errorsRaised[3] = 1
             else:
                 self.errorsRaised[2] = 1
         if actualNode.getLeft():
-            self.verificacion(actualNode.getLeft(), values)
+            self.varVerificacion(actualNode.getLeft(), values)
         if actualNode.getRight():
-            self.verificacion(actualNode.getRight(), values)
+            self.varVerificacion(actualNode.getRight(), values)
+    #Recorrido en preorden
+    def varAssignation(self, actualNode=Node, values=[]):
+        if actualNode == self.getRoot():
+            if values:
+                if values[0] not in actualNode.getAlphabets():
+                    self.errorsRaised[2] = 1
+                    values.pop(0)
+                else:
+                    values.pop(0)
+            else:
+                self.errorsRaised[0] = 1
+                return
+        else:
+            if actualNode.getAlphabets() == "Cadena":
+                string = values[0]
+                if string[0] == '"' and string[-1] == '"':
+                    pass
+                else:
+                    self.errorsRaised[5] = 1
+                    return
+                values.pop(0)
+
+            elif actualNode.getAlphabets() == "Entero":
+                string = values[0]
+                numbers = [str(x) for x in range(10)]
+                for letter in string:
+                    if letter not in numbers:
+                        self.errorsRaised[5] = 1
+                        break
+                values.pop(0)
+
+            elif actualNode.getAlphabets() == "Real":
+                string = values[0]
+                numbers = [str(x) for x in range(10)]
+                points = 0
+                for letter in string:
+                    if letter == ".":
+                        points+=1
+                    elif letter not in numbers:
+                        self.errorsRaised[4] = 1
+                        break
+                values.pop(0)
+                if points > 1:
+                    self.errorsRaised[5] = 1
+        if actualNode.getLeft():
+            self.varAssignation(actualNode.getLeft(), values)
+                
+
+
+
+
+    def resetErrors(self):
+        for idx in range(len(self.errorsRaised)):
+            self.errorsRaised[idx]=0
+
     def createList(self, values):
         returnList = []
         for value in values:
