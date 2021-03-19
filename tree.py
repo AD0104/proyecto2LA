@@ -105,11 +105,7 @@ class Tree:
                     self.errorsRaised[5] = 1
         if actualNode.getLeft():
             self.varAssignation(actualNode.getLeft(), values)
-                
-
-
-
-
+            
     def resetErrors(self):
         for idx in range(len(self.errorsRaised)):
             self.errorsRaised[idx]=0
