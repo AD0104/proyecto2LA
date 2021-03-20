@@ -99,6 +99,7 @@ class Tree:
                         points+=1
                     elif letter not in numbers:
                         self.errorsRaised[4] = 1
+                        self.errorsRaised[5] = 1
                         break
                 values.pop(0)
                 if points > 1:
