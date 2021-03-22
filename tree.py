@@ -104,6 +104,8 @@ class Tree:
                 values.pop(0)
                 if points > 1:
                     self.errorsRaised[5] = 1
+            else:
+                self.errorsRaised[1] = 1
         if actualNode.getLeft():
             self.varAssignation(actualNode.getLeft(), values)
             
