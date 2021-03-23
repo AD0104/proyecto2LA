@@ -146,7 +146,7 @@ class Tree:
                     self.errorsRaised[6] = 1
                     values.pop(0)                           
         else:
-            if actualNode.getAlphabets() == "Cadena":
+            if "Cadena" in actualNode.getAlphabets() :
                 string = values[0]
                 if string[0] == '"' and string[-1] == '"':
                     pass
@@ -155,7 +155,7 @@ class Tree:
                     return
                 values.pop(0)
 
-            elif actualNode.getAlphabets() == "Entero":
+            elif "Entero" in actualNode.getAlphabets() :
                 string = values[0]
                 numbers = [str(x) for x in range(10)]
                 for letter in string:
@@ -164,7 +164,7 @@ class Tree:
                         break
                 values.pop(0)
 
-            elif actualNode.getAlphabets() == "Real":
+            elif "Real" in actualNode.getAlphabets():
                 string = values[0]
                 numbers = [str(x) for x in range(10)]
                 points = 0
