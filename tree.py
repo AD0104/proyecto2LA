@@ -124,59 +124,70 @@ class Tree:
                 return
         #Verifica si estamos en el nodo izquierdo del nodo raiz
         elif actualNode == self.getRoot().getLeft():
-            if actualNode.getAlphabets() == "Cadena":
+            if "Cadena" in actualNode.getAlphabets(): 
                 operator = ["+"]
                 if values[0] in operator:
                     values.pop(0)
                 else:
                     self.errorsRaised[6] = 1
                     values.pop(0)
-            elif actualNode.getAlphabets() == "Entero":
+            elif "Entero" in actualNode.getAlphabets():
                 operator = list("+/*-")
                 if values[0] in operator:
                     values.pop(0)
                 else:
                     self.errorsRaised[6] = 1
                     values.pop(0)
-            elif actualNode.getAlphabets() == "Real":
+            elif "Real" in actualNode.getAlphabets():
                 operator = list("+/*-")
                 if values[0] in operator:
                     values.pop(0)
                 else:
                     self.errorsRaised[6] = 1
                     values.pop(0)                           
+            else:
+                self.errorsRaised[1] = 1
+                values.pop(0)
         else:
             if "Cadena" in actualNode.getAlphabets() :
                 string = values[0]
-                if string[0] == '"' and string[-1] == '"':
-                    pass
+                if string in actualNode.getAlphabets():
+                   return 
                 else:
-                    self.errorsRaised[7] = 1
-                    return
-                values.pop(0)
+                    if string[0] == '"' and string[-1] == '"':
+                        pass
+                    else:
+                        self.errorsRaised[7] = 1
+                        return
+                    values.pop(0)
 
             elif "Entero" in actualNode.getAlphabets() :
                 string = values[0]
-                numbers = [str(x) for x in range(10)]
-                for letter in string:
-                    if letter not in numbers:
-                        self.errorsRaised[7] = 1
-                        break
-                values.pop(0)
-
+                if string in actualNode.getAlphabets():
+                    return
+                else:
+                    numbers = [str(x) for x in range(10)]
+                    for letter in string:
+                        if letter not in numbers:
+                            self.errorsRaised[7] = 1
+                            break
+                    values.pop(0)
             elif "Real" in actualNode.getAlphabets():
                 string = values[0]
-                numbers = [str(x) for x in range(10)]
-                points = 0
-                for letter in string:
-                    if letter == ".":
-                        points+=1
-                    elif letter not in numbers:
+                if string in actualNode.getAlphabets():
+                    return
+                else:
+                    numbers = [str(x) for x in range(10)]
+                    points = 0
+                    for letter in string:
+                        if letter == ".":
+                            points+=1
+                        elif letter not in numbers:
+                            self.errorsRaised[7] = 1
+                            break
+                    values.pop(0)
+                    if points > 1:
                         self.errorsRaised[7] = 1
-                        break
-                values.pop(0)
-                if points > 1:
-                    self.errorsRaised[5] = 1
         if actualNode.getLeft():
             self.operationVerif(actualNode.getLeft(), values)
         if actualNode.getRight():

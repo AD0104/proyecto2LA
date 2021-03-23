@@ -23,7 +23,7 @@ def setTree2(var, dataType):
 def setTree3(var,dataType):
     rootNode = Node([var])
     leaf_b = Node([dataType])
-    leaf_c = Node([dataType])
+    leaf_c = Node([dataType, var])
     rootNode.setLeft(leaf_b)
     rootNode.setRight(leaf_c)
     treeOpCheck.setRoot(rootNode)
