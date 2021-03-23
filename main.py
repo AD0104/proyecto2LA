@@ -63,7 +63,15 @@ def varVerification(string):
             print("Error la cadena '{}' debería ser '{}'".format(string,string[:idx]+string[idx+1:]+";"))
     else:
         print("Error la cadena debe terminar en ';'")     
-
+def operation(string):
+    if ";" in string:
+        if string[-1] == ';':
+            pass
+        else:
+            idx = string.find(';')
+            print("Error la cadena '{}' debería ser '{}'".format(string,string[:idx]+string[idx+1:]+";"))
+    else:
+        print("Error, la cadena debe terminar en ';'")
 var_dec = input("Declara la variable: ") #variable declarada        
 stringVerification(var_dec)
 

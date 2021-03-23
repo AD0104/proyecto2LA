@@ -108,7 +108,20 @@ class Tree:
                 self.errorsRaised[1] = 1
         if actualNode.getLeft():
             self.varAssignation(actualNode.getLeft(), values)
-            
+
+    def operationVerif(self, actualNode, values):
+        if actualNode == self.getRoot():
+            if values:
+                if values[0] not in actualNode.getAlphabets():
+                    self.errorsRaised[2] = 1
+                    values.pop(0)
+                else:
+                    values.pop(0)
+            else:
+                self.errorsRaised[0] = 1
+                return
+        else:
+            pass
     def resetErrors(self):
         for idx in range(len(self.errorsRaised)):
             self.errorsRaised[idx]=0
