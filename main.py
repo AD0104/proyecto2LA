@@ -4,6 +4,7 @@ import string
 
 treeVarDesc = Tree()
 treeVarAss = Tree()
+treeOpCheck = Tree()
 
 def setTree1():
     rootNode = Node(["Cadena","Entero","Real"])
@@ -19,6 +20,14 @@ def setTree2(var, dataType):
 
     pass
 
+def setTree3(var,dataType):
+    rootNode = Node([var])
+    leaf_b = Node([dataType])
+    leaf_c = Node([dataType])
+    rootNode.setLeft(leaf_b)
+    rootNode.setRight(leaf_c)
+    treeOpCheck.setRoot(rootNode)
+        
 def stringVerification(string):
     if ';' in string:
         if string[-1] == ';':
@@ -40,8 +49,6 @@ def stringVerification(string):
         print("Error la cadena debe terminar en ';'")
 
 def varVerification(string):
-    #var=a;
-    #;
     if ';' in string:
         if string[-1] == ';':
             #New string without ';'
@@ -62,18 +69,45 @@ def varVerification(string):
             idx = string.find(';')
             print("Error la cadena '{}' debería ser '{}'".format(string,string[:idx]+string[idx+1:]+";"))
     else:
-        print("Error la cadena debe terminar en ';'")     
+        print("Error la cadena debe terminar en ';'")
+
+def stringSeparation(string, lst):
+    string = list(string)
+    operators = ["+","*","/","-"]
+    word = ""
+    while(len(string)>0):
+        if (string[0] not in operators and string[0] != '' and string[0]!= ' '):
+            word+=string[0]
+            string.pop(0)
+        elif string[0] in operators:
+            lst.append(word)
+            word = ""
+            lst.append(string[0])
+            string.pop(0)
+        else:
+            string.pop(0)
+    lst.append(word)
+    return lst
+
 def operation(string):
     if ";" in string:
         if string[-1] == ';':
-            pass
+            string = string[:-1]
+            lst = stringSeparation(string, [])
+            setTree3(treeVarDesc.getStatedVar(), treeVarDesc.getDataType() )
+            treeOpCheck.operationVerif(treeOpCheck.getRoot(), lst)
+            treeOpCheck.printMessages()
         else:
             idx = string.find(';')
             print("Error la cadena '{}' debería ser '{}'".format(string,string[:idx]+string[idx+1:]+";"))
     else:
         print("Error, la cadena debe terminar en ';'")
+
 var_dec = input("Declara la variable: ") #variable declarada        
 stringVerification(var_dec)
 
 var_assig = input("Asigna valor: ") #asignacion de valores a una variable
 varVerification(var_assig)
+
+operation_to_check = input("Ingresa operacion: ")
+operation(operation_to_check)
